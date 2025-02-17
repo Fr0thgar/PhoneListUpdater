@@ -5,8 +5,8 @@ Get-Module -ListAvailable
 Update-Module -Name PnP.PowerShell
 
 # If issues persist, uninstall and reinstall
-Uninstall-Module -Name PnP.PowerShell
-Install-Module -Name PnP.PowerShell
+#Uninstall-Module -Name PnP.PowerShell
+#Install-Module -Name PnP.PowerShell
 
 # Check PowerShell version
 $PSVersionTable.PSVersion
@@ -16,7 +16,7 @@ Import-Module PnP.PowerShell
 
 # Connect to Sharepoint
 $siteUrl = "https://twcas.sharepoint.com/HR/Lists/Telefonliste/Allitemsg.aspx"
-Connect-PnPOnline -Url $siteUrl -UseWebLogin
+Connect-PnPOnline -Url $siteUrl -Interactive
 
 # Path to the CSV File
 $csvPath = "\\filsrv\it\Phonelist\upload_template.csv"
