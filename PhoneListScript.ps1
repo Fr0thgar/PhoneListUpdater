@@ -31,6 +31,26 @@ Connect-PnPOnline -Url $siteUrl -ClientId $clientId -Tenant $tenantId -Interacti
  #   Write-Host "Failed to connect to SharePoint: $_"    
 #}
 
+# Check if the list exists
+try {
+    $list = Get-PnPList -Identity "Telefonliste"
+    Write-Host "List found: $($list.Title)"
+} catch {
+    Write-Host "Error: The list 'Telefonliste' does not exist. Please check the name and try again."
+    exit # Exit the script if the list is not found
+}
+
+# Test accessing the mobil column
+try {
+    $list = Get-PnPList -List "Telefonliste" -Id 1 
+    Write-Host "Mobil: $($item['Mobil'])"
+}
+catch {
+    Write-Host "Error accessing Mobil column: $_"
+}
+
+# Test acc
+
 # Path to the CSV File
 $csvPath = "\\filsrv\it\Telefonliste\Telefonliste.csv"
 
