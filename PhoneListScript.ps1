@@ -42,14 +42,12 @@ try {
 
 # Test accessing the mobil column
 try {
-    $list = Get-PnPList -List "Telefonliste" -Id 1 
+    $list = Get-PnPListItem -List "Telefonliste" -Id 1 
     Write-Host "Mobil: $($item['Mobil'])"
 }
 catch {
     Write-Host "Error accessing Mobil column: $_"
 }
-
-# Test acc
 
 # Path to the CSV File
 $csvPath = "\\filsrv\it\Telefonliste\Telefonliste.csv"
