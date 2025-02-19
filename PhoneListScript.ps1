@@ -1,18 +1,56 @@
-﻿# Import the PnP Powershell module
+﻿Write-Host "If you get an Access Denied error and you are sure you have access on the account chosen, Close you terminal and run it fresh. This should let you re-authenticate with your account." -ForegroundColor Red
+
+# Check Powershell Version
+if ($PSVersionTable.PSVersion.Major -lt 7) {
+    Write-Host " Your PowerShell version is outdated! (Current:  $($PSVersionTable.PSVersion))" -ForegroundColor Red
+    Write-Host "Upgrading to the latest PowerShell version..." -ForegroundColor Yellow
+
+    # Downlaod & Install the latest Powershell
+    $installerUrl = "https://aka.ms/install-powershell.ps1"
+    $installerPath = "$env:TEMP\install-powershell.ps1"
+
+    Invoke-WebRequest -Uri $installerUrl -OutFile $installerPath
+    Write-Host "Running PowerShell installer..." -ForegroundColor Yellow
+    & $installerPath -UseMSI
+
+    Write-Host "PowerShell upgrade initiated. Please restart your terminal and run the script again." -ForegroundColor Green
+    exit # Stop script execution
+} else {
+    Write-Host "PowerShell version is up to date: $($PSVersionTable.PSVersion)" -ForegroundColor Green
+}
+
+# Check if PnP.PowerShell is installed 
+$installedModule = Get-Module -Name PnP.PowerShell -ListAvailable | Sort-Object Version -Descending | Select-Object -First 1
+# Get latest stable  version from PowerShell Gallery
+$latestVersion = Find-Module -Name PnP.PowerShell | Select-Object -ExpandProperty Version
+
+if($installedModule) {
+    $installedVersion = $installedModule.Version
+    Write-Host "Installed PnP.PowerShell Version: $installedVersion"
+    Write-Host "Latest PnP.PowerShell version: $latestVersion"
+
+    if ($installedVersion -lt $latestVersion) {
+        Write-Host "Updating PnP.PowerShell to the latest version..."
+        Update-Module -Name PnP.PowerShell -Force
+    } else {
+        Write-Host "PnP.PowerShell is already up to date!"
+    }
+} else {
+    Write-Host "PnP.PowerShell is not installed. Installing the latest version..."
+    Install-Module -Name PnP.PowerShell -Force
+}
+
+# Import the PnP Powershell module
 Import-Module PnP.PowerShell
+Write-Host "PnP PowerShell module loaded successfully!" -ForegroundColor Green
 
 # Variables for app registration
 $siteUrl = "https://twcas.sharepoint.com/HR"  # Ensure this is correct
 $clientId = "d704eda0-54af-4fad-a62a-546401569152"
 $tenantId = "38898116-fa71-4dd1-b72d-09c5fd8a7141"
 
-
 # Connect to Sharepoint
 Connect-PnPOnline -Url $siteUrl -ClientId $clientId -Tenant $tenantId -Interactive
-
-
-#Get-PnPField -List "Telefonliste" | 
-#    Select Title, InternalName
 
 # Check if the list exists
 try {
