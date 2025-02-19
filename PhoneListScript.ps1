@@ -10,6 +10,7 @@ $tenantId = "38898116-fa71-4dd1-b72d-09c5fd8a7141"
 # Connect to Sharepoint
 Connect-PnPOnline -Url $siteUrl -ClientId $clientId -Tenant $tenantId -Interactive
 
+
 #Get-PnPField -List "Telefonliste" | 
 #    Select Title, InternalName
 
