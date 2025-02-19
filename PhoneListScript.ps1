@@ -1,17 +1,4 @@
-﻿# Check current modules
-#Get-Module -ListAvailable
-
-# Update PnP PowerShell module
-#Update-Module -Name PnP.PowerShell
-
-# If issues persist, uninstall and reinstall
-#Uninstall-Module -Name PnP.PowerShell
-#Install-Module -Name PnP.PowerShell
-
-# Check PowerShell version
-#$PSVersionTable.PSVersion
-
-# Import the PnP Powershell module
+﻿# Import the PnP Powershell module
 Import-Module PnP.PowerShell
 
 # Variables for app registration
@@ -23,13 +10,8 @@ $tenantId = "38898116-fa71-4dd1-b72d-09c5fd8a7141"
 # Connect to Sharepoint
 Connect-PnPOnline -Url $siteUrl -ClientId $clientId -Tenant $tenantId -Interactive
 
-# Test the connection
-#try {
- #   $web = Get-PnPWeb
-  #  Write-Host "Connected to SharePoint site: $(web.Title)"
-#} catch {
- #   Write-Host "Failed to connect to SharePoint: $_"    
-#}
+#Get-PnPField -List "Telefonliste" | 
+#    Select Title, InternalName
 
 # Check if the list exists
 try {
@@ -40,23 +22,14 @@ try {
     exit # Exit the script if the list is not found
 }
 
-# Test accessing the mobil column
-try {
-    $list = Get-PnPListItem -List "Telefonliste" -Id 1 
-    Write-Host "Mobil: $($item['Mobil'])"
-}
-catch {
-    Write-Host "Error accessing Mobil column: $_"
-}
-
 # Path to the CSV File
 $csvPath = "\\filsrv\it\Telefonliste\Telefonliste.csv"
 
 # Read the CSV File
-$phoneList = Import-Csv -Path $csvPath
+$telefonListe = Import-Csv -Path $csvPath
 
 # Loop through each row in the csv and update the sharepoint list
-foreach($row in $phoneList) {
+foreach($row in $telefonListe) {
     try {
         #Check if the item already exists in the list
         $existingItem = Get-PnPListItem -List "Telefonliste" -Query "<View><Query><Where><Eq><FieldRef Name='Title'/><Value Type='Text'>$($row.Name)</Value></Eq></Where></Query></View>"
@@ -70,13 +43,13 @@ foreach($row in $phoneList) {
         try{
             # Update the existing item
             Set-PnPListItem -List "Telefonliste" -Identity $existingItem.Id -Values @{
-                "Direkte"   = $row.Direkte
-                "Mobil"     = $row.Mobil
-                "Mail"      = $row.Mail
-                "Stilling"  = $row.Stilling
-                "Afdeling"  = $row.Afdeling
-                "Firma"     = $row.Firma
-                "Lokation"  = $row.Lokation
+                "LOKALNR"   = $row.Direkte
+                "DIREKTE"     = $row.Mobil
+                "E_x002d_MAIL"      = $row.Mail
+                "STILLING"  = $row.Stilling
+                "ADRESSE"  = $row.Afdeling
+                "POSTNR"     = $row.Firma
+                "BY"  = $row.Lokation
             }
             Write-Host "Updated: $($row.Name)"
         } catch {
@@ -87,14 +60,14 @@ foreach($row in $phoneList) {
         try {
             #  Add a new item
             Add-PnPListItem -List "Telefonliste" -Values @{
-                "Title"     = $row.Name
-                "Direkte"   = $row.Direkte
-                "Mobil"     = $row.Mobil
-                "Mail"      = $row.Mail
-                "Stilling"  = $row.Stilling
-                "Afdeling"  = $row.Afdeling
-                "Firma"     = $row.Firma
-                "Lokation"  = $row.Lokation
+                "Title" = $row.Fuldenavn
+                "LOKALNR"   = $row.Direkte
+                "DIREKTE"     = $row.Mobil
+                "E_x002d_MAIL"      = $row.Mail
+                "STILLING"  = $row.Stilling
+                "ADRESSE"  = $row.Afdeling
+                "POSTNR"     = $row.Firma
+                "BY"  = $row.Lokation
             }
             Write-Host "Added: $($row.Name)"
         } catch {
