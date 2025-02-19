@@ -45,9 +45,9 @@ Import-Module PnP.PowerShell
 Write-Host "PnP PowerShell module loaded successfully!" -ForegroundColor Green
 
 # Variables for app registration
-$siteUrl = "https://twcas.sharepoint.com/HR"  # Ensure this is correct
-$clientId = "d704eda0-54af-4fad-a62a-546401569152"
-$tenantId = "38898116-fa71-4dd1-b72d-09c5fd8a7141"
+$siteUrl = "Your sharepoint list url"  # Ensure this is correct
+$clientId = "Your ClientID from Entra admin center" # Get ClientId from Entra Admin Center - App registration 
+$tenantId = "Your TenantID from Entra admin center" # Get TenantId from Entra Admin Center - App registration
 
 # Connect to Sharepoint
 Connect-PnPOnline -Url $siteUrl -ClientId $clientId -Tenant $tenantId -Interactive
@@ -62,7 +62,7 @@ try {
 }
 
 # Path to the CSV File
-$csvPath = "\\filsrv\it\Telefonliste\Telefonliste.csv"
+$csvPath = "Path to your CSV File"
 
 # Read the CSV File
 $telefonListe = Import-Csv -Path $csvPath
