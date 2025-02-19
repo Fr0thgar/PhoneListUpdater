@@ -45,9 +45,9 @@ Import-Module PnP.PowerShell
 Write-Host "PnP PowerShell module loaded successfully!" -ForegroundColor Green
 
 # Variables for app registration
-$siteUrl = "Your sharepoint list url"  # Ensure this is correct
-$clientId = "Your ClientID from Entra admin center" # Get ClientId from Entra Admin Center - App registration 
-$tenantId = "Your TenantID from Entra admin center" # Get TenantId from Entra Admin Center - App registration
+$siteUrl = "https://Yourtenant.sharepoint.com"  # Ensure this is correct
+$clientId = "Your ClientID from Entra Admin Center" # Get ClientId from Entra Admin Center - App registration 
+$tenantId = "Your TenantID from Entra Admin Center" # Get TenantId from Entra Admin Center - App registration
 
 # Connect to Sharepoint
 Connect-PnPOnline -Url $siteUrl -ClientId $clientId -Tenant $tenantId -Interactive
@@ -62,7 +62,7 @@ try {
 }
 
 # Path to the CSV File
-$csvPath = "Path to your CSV File"
+$csvPath = "Your Path to the CSV file"
 
 # Read the CSV File
 $telefonListe = Import-Csv -Path $csvPath
@@ -82,6 +82,7 @@ foreach($row in $telefonListe) {
         try{
             # Update the existing item
             Set-PnPListItem -List "Telefonliste" -Identity $existingItem.Id -Values @{
+                # Make sure you update These to match your Column names 
                 "LOKALNR"   = $row.Direkte
                 "DIREKTE"     = $row.Mobil
                 "E_x002d_MAIL"      = $row.Mail
@@ -99,6 +100,7 @@ foreach($row in $telefonListe) {
         try {
             #  Add a new item
             Add-PnPListItem -List "Telefonliste" -Values @{
+                # Make sure you update These to match your Column names 
                 "Title" = $row.Fuldenavn
                 "LOKALNR"   = $row.Direkte
                 "DIREKTE"     = $row.Mobil
