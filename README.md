@@ -17,8 +17,6 @@ To run a PowerShell script, follow these steps:
 Windows comes with PowerShell preinstalled.
 To check your version, open PowerShell and run:
 powershell
-Copy
-Edit
 ``` powershell
 $PSVersionTable.PSVersion
 ```
@@ -28,8 +26,6 @@ By default, Windows may prevent script execution for security reasons. You may n
 Open PowerShell as Administrator
 Run the following command:
 powershell
-Copy
-Edit
 ``` powershell
 Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
 ```
@@ -38,8 +34,6 @@ Press Y and hit Enter to confirm.
 Use the cd command to change directories to where the script is stored. Example:
 
 powershell
-Copy
-Edit
 ``` powershell
 cd "C:\Path\To\Your\Script"
 ```
@@ -47,16 +41,12 @@ cd "C:\Path\To\Your\Script"
 To execute the script, type:
 
 powershell
-Copy
-Edit
 ``` powershell
 .\YourScript.ps1
 ```
 or
 
 powershell
-Copy
-Edit
 ``` powershell
 powershell -ExecutionPolicy Bypass -File "C:\Path\To\Your\Script.ps1"
 ```
@@ -71,9 +61,9 @@ Click Create Basic Task
 Set a trigger (daily, startup, etc.)
 Set an action as:
 powershell
-Copy
-Edit
+``` powershell
 powershell.exe -ExecutionPolicy Bypass -File "C:\Path\To\Your\Script.ps1"
+```
 Click Finish
 
 ---
