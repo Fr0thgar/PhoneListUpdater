@@ -1,5 +1,7 @@
 # PowerShell Script for Updating SharePoint Phone List
 
+## The Script is setup to install all necessary dependencies, but the Prerequisites instructions are here just in case...
+
 ## Overview
 This PowerShell script automates the process of updating a SharePoint list (**Telefonliste**) with data from a CSV file. It ensures that:
 - The correct version of **PnP.PowerShell** is installed and updated if necessary.
