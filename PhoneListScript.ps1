@@ -118,4 +118,5 @@ foreach($row in $telefonListe) {
     }
 }
 
+Disconnect-PnPOnline
 Write-Host "Phone list update completed!"
