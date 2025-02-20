@@ -10,6 +10,73 @@ This PowerShell script automates the process of updating a SharePoint list (**Te
 - Data from the CSV file is synchronized with the SharePoint list.
 
 ---
+## How to Run a PowerShell Script
+To run a PowerShell script, follow these steps:
+
+### 1. Ensure PowerShell is Installed
+Windows comes with PowerShell preinstalled.
+To check your version, open PowerShell and run:
+powershell
+Copy
+Edit
+``` powershell
+$PSVersionTable.PSVersion
+```
+### 2. Set Execution Policy (If Needed)
+By default, Windows may prevent script execution for security reasons. You may need to change the execution policy:
+
+Open PowerShell as Administrator
+Run the following command:
+powershell
+Copy
+Edit
+``` powershell
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+```
+Press Y and hit Enter to confirm.
+### 3. Navigate to the Script Location
+Use the cd command to change directories to where the script is stored. Example:
+
+powershell
+Copy
+Edit
+``` powershell
+cd "C:\Path\To\Your\Script"
+```
+### 4. Run the Script
+To execute the script, type:
+
+powershell
+Copy
+Edit
+``` powershell
+.\YourScript.ps1
+```
+or
+
+powershell
+Copy
+Edit
+``` powershell
+powershell -ExecutionPolicy Bypass -File "C:\Path\To\Your\Script.ps1"
+```
+### 5. Alternative: Run via Right-Click
+Locate the .ps1 script file
+Right-click > Select Run with PowerShell
+### 6. Automate with Task Scheduler (Optional)
+To schedule the script to run automatically:
+
+Open Task Scheduler
+Click Create Basic Task
+Set a trigger (daily, startup, etc.)
+Set an action as:
+powershell
+Copy
+Edit
+powershell.exe -ExecutionPolicy Bypass -File "C:\Path\To\Your\Script.ps1"
+Click Finish
+
+---
 
 ## Prerequisites
 Before running the script, ensure that:
