@@ -180,4 +180,5 @@ try {
     }
 }
 
+Disconnect-PnPOnline
 Write-Host "Phone list update completed!"
