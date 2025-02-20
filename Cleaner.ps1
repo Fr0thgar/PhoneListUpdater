@@ -1,52 +1,32 @@
 # Define the correct headers
-$expectedHeaders = @("Fuldenavn", "Direkte", "Mobil", "Mail", "Stilling", "Afdeling", "Firma", "Lokation")
+#$expectedHeaders = @("Fuldenavn", "Direkte", "Mobil", "Mail", "Stilling", "Afdeling", "Firma", "Lokation")
 
 # Path to input and output CSV files
 $inputCsvPath = "Path here"
 $outputCsvPath = "Path here"
 
 # Import the CSV
-$data = Import-Csv -Path $inputCsvPath
+$data = Import-Csv -Path $inputCsvPath -Delimiter ';'
 
-# Check and rename headers if needed
-$headers = $data[0].PSObject.Properties.Name
+# Process each row to map the columns as needed
+$cleanedData = foreach ($row in $data) {
+    # Combine Fornavn and Efternavn for the full name, trimming any extra spaces
+    $fuldenavn = "$($row.Fornavn) $($row.Efternavn)".Trim()
 
-# Map incorrect headers to expected ones if necessary (manually adjust if needed)
-$headerMappings = @{
-    ""  = "Fuldenavn"
-    ""      = "Direkte"
-    ""     = "Mobil"
-    ""     = "Mail"
-    ""  = "Stilling"
-    "" = "Afdeling"
-    ""    = "Firma"
-    ""   = "Lokation"
-}
-
-# Create a new cleaned dataset with standardized headers
-$cleanedData = @{
-     $newRow = @{}
-
-     foreach ($expectedHeader in $expectedHeaders) {
-        $matchingColumn = $headers -match $expectedHeader
-        if ($matchingColumn) {
-            $newRow[$expectedHeader] = $row.$matchingColumn
-        }
-        elseif ($headerMappings.ContainsKey($expectedHeader)) {
-            $mappedColumn = $headerMappings[$expectedHeader]
-            if ($headers -contains $mappedColumn) {
-                $newRow[$expectedHeader] = $row.$mappedColumn
-            }
-        }
-        else {
-            $newRow[$expectedHeader] = " # fill missing values with empty strings"
-        }
+    # Create a new object with the expected columns
+    [PSCustomObject]@{
+        Fuldenavn = $fuldenavn
+        Direkte = $row.Lokalnummer  # Maps to 'Direkte'
+        Mobil = $row.Mobilnummer    # maps to 'Mobil'
+        Mail =  $row.Email          # maps to 'Mail'
+        Stilling = $row.Stilling    # maps to 'Stilling'
+        Afdeling = $row.Afdeling    # Maps to 'afdeling'
+        Firma = ""                  # no corresponding input column; left blank
+        Lokation = $row.Adresse     # maps to 'Lokation'
     }
-
-    $cleanedData += New-Object PSObject -Property $newRow
 }
 
-# Export the cleaned data
+# Export the cleaned data to a new CSV with the correct headers
 $cleanedData | Export-Csv -Path $outputCsvPath -NoTypeInformation -Encoding UTF8
 
 Write-Host "CSV cleanup completed! Cleaned file saved to $outputCsvPath"
