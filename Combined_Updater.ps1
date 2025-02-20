@@ -1,5 +1,15 @@
 # --------------------------------------
-# CSV Cleanup Section
+# User Confirmation to Proceed
+# --------------------------------------
+
+$answer = Read-Host "Have you added a new input file? (Y/N)"
+if ($answer -notmatch "^(Y|y)$") {
+    Write-Host "Please add the new input file and run the script again." -ForegroundColor Yellow
+    exit
+}
+
+# --------------------------------------
+# CSV Cleanup Section 
 # --------------------------------------
 
 # Define expected headers for the cleaned CSV (For documentation)
