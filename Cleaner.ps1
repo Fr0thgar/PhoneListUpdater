@@ -1,9 +1,21 @@
-# Define the correct headers
+# Define the correct headers (optinal, for documentation)
 #$expectedHeaders = @("Fuldenavn", "Direkte", "Mobil", "Mail", "Stilling", "Afdeling", "Firma", "Lokation")
 
-# Path to input and output CSV files
-$inputCsvPath = "Path here"
-$outputCsvPath = "Path here"
+# Path to input and output CSV files (adjust path as necessary)
+$inputCsvPath   = "Your input Path here"
+$outputCsvPath  = "Your output Path here"
+$baseName       = "Your output filename"
+$extension      = ".csv" 
+
+# Construct the initail output file path
+$outputCsvPath = Join-Path $outputFolder ($baseName + $extension)
+
+# if file exists, append a counter to create a unique  filename
+$counter = 1
+while (Test-Path $outputCsvPath) {
+    $outputCsvPath = Join-Path $outputFolder ("{0}_{1}{2}" -f $baseName, $counter, $extension)
+    $counter++
+}
 
 # Import the CSV
 $data = Import-Csv -Path $inputCsvPath -Delimiter ';'
